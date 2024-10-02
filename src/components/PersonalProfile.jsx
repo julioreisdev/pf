@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import MediaPreview from "./MediaPreview";
 import { useState } from "react";
+import ProfileEdit from "./ProfileEdit";
 
 const PersonalProfile = () => {
   const [previewIsOpen, setPreviewIsOpen] = useState(false);
+  const [editIsOpen, setEditIsOpen] = useState(false);
   const [media, setMedia] = useState("");
   return (
     <div
@@ -16,6 +18,9 @@ const PersonalProfile = () => {
       <div style={{ marginBottom: "1rem" }}>
         <div style={{ display: "flex", gap: "1rem", marginBottom: "1rem" }}>
           <UserImage
+            onClick={() => {
+              setEditIsOpen(true);
+            }}
             src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/128/Profile-icon.png"
             alt=""
           />
@@ -70,6 +75,11 @@ const PersonalProfile = () => {
         onClose={() => setPreviewIsOpen(false)}
         media={media}
       />
+      <ProfileEdit
+        open={editIsOpen}
+        onClose={() => setEditIsOpen(false)}
+        update={() => {}}
+      />
     </div>
   );
 };
@@ -104,7 +114,7 @@ const UserImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 const UserName = styled.h5`

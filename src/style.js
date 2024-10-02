@@ -30,6 +30,16 @@ export const Input = styled.input`
   background-color: #fff;
 `;
 
+export const TextArea = styled.textarea`
+  width: 100%;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #1070ca;
+  outline: none;
+  background-color: #fff;
+`;
+
 export const ButtonLogin = styled.button`
   width: 100%;
   border-radius: 8px;

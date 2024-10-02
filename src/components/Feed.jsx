@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import { Button } from "@mui/material";
 
 const Feed = () => {
   return (
@@ -35,7 +36,6 @@ const Feed = () => {
           src="https://petanjo.com/blog/wp-content/uploads/2021/03/labrador-retriever-3.png"
           alt=""
         />
-
         <Description>
           <p>
             {" "}
@@ -44,6 +44,16 @@ const Feed = () => {
             😘
           </p>
         </Description>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            padding: "0 1rem 1rem 1rem",
+          }}
+        >
+          <Button variant="contained">Saiba Mais</Button>
+        </div>
       </FeedContainer>
       <FeedContainer>
         <div

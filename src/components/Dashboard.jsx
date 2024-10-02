@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { colors } from "../utils";
@@ -9,8 +9,10 @@ import DynamicFeedIcon from "@mui/icons-material/DynamicFeed";
 import LoupeIcon from "@mui/icons-material/Loupe";
 import SearchIcon from "@mui/icons-material/Search";
 import { logout } from "../utils/logout";
+import PostModal from "./PostModal";
 
 const Dashboard = ({ children }) => {
+  const [postIsOpen, setPostIsOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("authenticated") !== "true") {
@@ -27,9 +29,14 @@ const Dashboard = ({ children }) => {
       <Footer style={{ color: colors.main }}>
         <DynamicFeedIcon onClick={() => navigate("feed")} />
         <SearchIcon onClick={() => navigate("search")} />
-        <LoupeIcon />
+        <LoupeIcon onClick={() => setPostIsOpen(true)} />
         <AccountCircleIcon onClick={() => navigate("profile")} />
       </Footer>
+      <PostModal
+        open={postIsOpen}
+        onClose={() => setPostIsOpen(false)}
+        update={() => {}}
+      />
     </Container>
   );
 };

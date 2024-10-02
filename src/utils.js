@@ -18,13 +18,13 @@ export function debounce(func, timeout = 300) {
   };
 }
 
-export function isVideo(typeFile) {
-  if (
-    typeFile?.includes(".ogg") ||
-    typeFile?.includes(".mkv") ||
-    typeFile?.includes(".mp4")
-  )
-    return true;
-
-  return false;
-}
+export const isVideo = async (url) => {
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    const contentType = response.headers.get("Content-Type");
+    return contentType && contentType.startsWith("video");
+  } catch (error) {
+    console.error("Error checking video type:", error);
+    return false;
+  }
+};
