@@ -1,8 +1,8 @@
-import { Dialog, DialogContent } from "@mui/material";
+import { Button, Dialog, DialogContent } from "@mui/material";
 import { TextArea } from "../style";
 import { useState } from "react";
 import { LoadingButton } from "@mui/lab";
-import { colors, isVideo } from "../utils";
+import { colors } from "../utils";
 
 const PostModal = ({ open, onClose, update }) => {
   const [description, setDescription] = useState("");
@@ -16,6 +16,10 @@ const PostModal = ({ open, onClose, update }) => {
       setImageFile(e.target.files[0]);
     }
   };
+
+  function isVideo(file) {
+    return file && file.type.startsWith("video/");
+  }
 
   return (
     <>
@@ -33,7 +37,7 @@ const PostModal = ({ open, onClose, update }) => {
         >
           <label htmlFor="image-input">
             <div style={{ overflowY: "auto", maxHeight: "400px" }}>
-              {isVideo(selectedImage) ? (
+              {isVideo(imageFile) ? (
                 <video style={{ width: "200px" }} controls>
                   <source src={selectedImage} type="video/mp4" />
                   Seu navegador não suporta o elemento de vídeo.
@@ -55,10 +59,24 @@ const PostModal = ({ open, onClose, update }) => {
           <input
             id="image-input"
             type="file"
-            accept="image/*"
+            accept="image/*, video/*"
             style={{ display: "none" }}
             onChange={handleImageChange}
           />
+          {imageFile && (
+            <Button
+              variant="outlined"
+              size="small"
+              loading={loading}
+              onClick={() => {
+                setImageFile(null);
+                setSelectedImage(null);
+              }}
+              type="submit"
+            >
+              Limpar
+            </Button>
+          )}
           <TextArea
             value={description}
             onChange={(e) => setDescription(e.target.value)}

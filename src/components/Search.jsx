@@ -1,24 +1,28 @@
-import { useCallback, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Input } from "../style";
-import { debounce } from "../utils";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { imgBuffer } from "../utils";
 
 const Search = () => {
   const [users, setUsers] = useState([]);
-  const search = useRef();
-  const debouncedSearch = useCallback(
-    debounce(() => {
-      axios.get("http://localhost:8008/buscar", {
-        params: { search: search.current.value },
-      });
-    }, 800),
-    []
-  );
+  const [search, setSearch] = useState("");
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    axios.get(`http://localhost:8008/users`).then((res) => {
+      setUsers(res.data);
+      console.log(res.data);
+    });
+  }, []);
+
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(search.toLowerCase()) ||
+      user.email.toLowerCase().includes(search.toLowerCase())
+  );
   return (
     <div
       style={{
@@ -28,54 +32,46 @@ const Search = () => {
       }}
     >
       <Input
-        ref={search}
         placeholder="Pesquisar"
         type="text"
         style={{ marginBottom: "0.5rem" }}
-        onKeyUp={debouncedSearch}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
       />
 
       <div
-        onClick={() => navigate("/dashboard/profile/1")}
         style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          cursor: "pointer",
-          padding: "0.3rem",
-          backgroundColor: "#121212",
+          maxHeight: "78vh",
+          overflowY: "scroll",
         }}
       >
-        <UserImage
-          src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/128/Profile-icon.png"
-          alt=""
-        />
-        <div>
-          <UserName>Palloma</UserName>
-          <UserEmail>pallominha@gmail.com</UserEmail>
-        </div>
-      </div>
-      <div
-        onClick={() => navigate("/dashboard/profile/2")}
-        style={{
-          width: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          cursor: "pointer",
-          padding: "0.3rem",
-          backgroundColor: "#121212",
-        }}
-      >
-        <UserImage
-          src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/128/Profile-icon.png"
-          alt=""
-        />
-        <div>
-          <UserName>Júlio</UserName>
-          <UserEmail>julio@gmail.com</UserEmail>
-        </div>
+        {filteredUsers.map((user) => (
+          <div
+            key={user.id}
+            onClick={() => navigate(`/dashboard/profile/${user.id}`)}
+            style={{
+              width: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              cursor: "pointer",
+              padding: "0.3rem",
+              backgroundColor: "#121212",
+            }}
+          >
+            <UserImage
+              src={
+                imgBuffer(user.image) ||
+                "https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/128/Profile-icon.png"
+              }
+              alt=""
+            />
+            <div>
+              <UserName>{user.name}</UserName>
+              <UserEmail>{user.email}</UserEmail>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -85,7 +81,7 @@ const UserImage = styled.img`
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 const UserName = styled.h5`

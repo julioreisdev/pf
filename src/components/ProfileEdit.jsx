@@ -1,15 +1,40 @@
 import { Dialog, DialogContent } from "@mui/material";
 import { Input } from "../style";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { colors } from "../utils";
+import axios from "axios";
 
-const ProfileEdit = ({ open, onClose, update }) => {
-  const [name, setName] = useState("Júlio Cezar dos Reis Pais");
-  const [phone, setPhone] = useState("89981043496");
+const ProfileEdit = ({ open, onClose, update, user, userImg }) => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+
+  useEffect(() => {
+    setName(user.name ? user.name : "");
+    setPhone(user.phone ? user.phone : "");
+    setSelectedImage(userImg);
+  }, [user]);
+
+  function edit() {
+    setLoading(true);
+    const data = new FormData();
+
+    data.append("name", name);
+    data.append("image", imageFile);
+    phone && data.append("phone", phone);
+    axios
+      .put(`http://localhost:8008/user/${user.id}`, data)
+      .then((res) => {
+        update();
+        onClose();
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files) {
@@ -82,6 +107,7 @@ const ProfileEdit = ({ open, onClose, update }) => {
             disabled={
               !name || (localStorage.getItem("is_ong") === "true" && !phone)
             }
+            onClick={edit}
             variant="contained"
             size="small"
             loading={loading}

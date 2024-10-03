@@ -37,7 +37,7 @@ function Register() {
     }
 
     axios
-      .post("http://localhost:8008/signup", payload)
+      .post("http://localhost:8008/register", payload)
       .then((res) => {
         localStorage.setItem("authenticated", "true");
         localStorage.setItem("name", res.data.name);

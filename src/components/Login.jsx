@@ -25,12 +25,12 @@ function Login() {
       password,
     };
     axios
-      .post("http://localhost:8008/signin", payload)
+      .post("http://localhost:8008/login", payload)
       .then((res) => {
         localStorage.setItem("authenticated", "true");
         localStorage.setItem("name", res.data.name);
         localStorage.setItem("email", res.data.email);
-        localStorage.setItem("user_id", res.data.user_id);
+        localStorage.setItem("user_id", res.data.id);
         localStorage.setItem("is_ong", res.data.is_ong);
         navigate("/dashboard/feed");
       })

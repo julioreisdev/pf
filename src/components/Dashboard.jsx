@@ -30,7 +30,9 @@ const Dashboard = ({ children }) => {
         <DynamicFeedIcon onClick={() => navigate("feed")} />
         <SearchIcon onClick={() => navigate("search")} />
         <LoupeIcon onClick={() => setPostIsOpen(true)} />
-        <AccountCircleIcon onClick={() => navigate("profile")} />
+        <AccountCircleIcon
+          onClick={() => navigate(`profile/${localStorage.getItem("user_id")}`)}
+        />
       </Footer>
       <PostModal
         open={postIsOpen}
