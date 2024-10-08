@@ -65,12 +65,12 @@ const Header = styled.header`
 `;
 
 const Footer = styled.footer`
-  padding: 0.5rem;
+  padding: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: fixed;
-  bottom: 0;
+  bottom: -5px;
   background-color: #0f1b2b;
   width: 100%;
   border-radius: 8px 8px 0 0;

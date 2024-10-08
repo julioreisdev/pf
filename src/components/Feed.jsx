@@ -2,121 +2,156 @@ import styled from "styled-components";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { Button } from "@mui/material";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { TailSpin } from "react-loader-spinner";
+import { colors, imgBuffer, videoBuffer } from "../utils";
+import { GlobalContext } from "./Context";
 
 const Feed = () => {
+  const [posts, setPosts] = useState([]);
+  const [postsLoading, setPostsLoading] = useState([]);
+
+  const context = useContext(GlobalContext);
+  useEffect(() => {
+    setPostsLoading(true);
+    axios
+      .get("http://localhost:8008/posts")
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch(() => {})
+      .finally(() => {
+        setPostsLoading(false);
+      });
+  }, [context.updatePosts]);
   return (
     <div style={{ padding: "3rem 0", backgroundColor: "#0f1b2b" }}>
-      <FeedContainer>
+      {postsLoading && (
         <div
-          style={{
-            position: "absolute",
-            top: "0",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0.3rem",
-          }}
+          style={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.3rem",
-            }}
-          >
-            <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
-            <h6>Patinhas Felizes</h6>
-          </div>
-          <Like>
-            <FavoriteIcon />
-          </Like>
+          <TailSpin width={60} height={60} color={colors.main} />
         </div>
-        <MediaImg
-          src="https://petanjo.com/blog/wp-content/uploads/2021/03/labrador-retriever-3.png"
-          alt=""
-        />
-        <Description>
-          <p>
-            {" "}
-            Oi pessoal! Essa é a Lilica, diga tchau, Lilica! Lilica está
-            disponível para adoção no centro de adoções de São Raimundo Nonato
-            😘
-          </p>
-        </Description>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-end",
-            padding: "0 1rem 1rem 1rem",
-          }}
-        >
-          <Button variant="contained">Saiba Mais</Button>
-        </div>
-      </FeedContainer>
-      <FeedContainer>
-        <div
-          style={{
-            position: "absolute",
-            top: "0",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0.3rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.3rem",
-            }}
-          >
-            <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
-            <h6>Júlio Cezar Reis</h6>
-          </div>
-          <Like>
-            <FavoriteBorderIcon />
-          </Like>
-        </div>
+      )}
 
-        <OnlyDescription>
-          <p> Estou a procura de um pet 🐶</p>
-        </OnlyDescription>
-      </FeedContainer>
-      <FeedContainer>
-        <div
-          style={{
-            position: "absolute",
-            top: "0",
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0.3rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.3rem",
-            }}
-          >
-            <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
-            <h6>Polícia Militar Rural</h6>
-          </div>
-          <Like>
-            <FavoriteIcon />
-          </Like>
-        </div>
-        <MediaImg
-          src="https://diariodonordeste.verdesmares.com.br/image/contentid/policy:1.3152323:1635252750/Tatu.jpg?f=default&$p$f=1abbdf5"
-          alt=""
-        />
-      </FeedContainer>
+      {posts.map((post) => (
+        <>
+          {post.midia ? (
+            <FeedContainer>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "0.3rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.3rem",
+                  }}
+                >
+                  <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
+                  <h6>{post.name}</h6>
+                </div>
+                <Like>
+                  <FavoriteIcon />
+                </Like>
+              </div>
+              {post.mime.includes("video") ? (
+                <video style={{ width: "100%" }} controls>
+                  <source src={videoBuffer(post.midia)} type="video/mp4" />
+                  Seu navegador não suporta o elemento de vídeo.
+                </video>
+              ) : (
+                <MediaImg src={imgBuffer(post.midia)} alt="" />
+              )}
+
+              {post.description && (
+                <Description>
+                  <p>{post.description}</p>
+                </Description>
+              )}
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  padding: "0 1rem 1rem 1rem",
+                }}
+              >
+                {post.user_is_ong && (
+                  <a
+                    href={`https://wa.me/${
+                      post.phone
+                    }?text=Olá, vim do *Patinhas Felizes*\n Contexto: \n ${
+                      post.description ? post.description : "Postagem"
+                    }`}
+                  >
+                    <Button variant="contained">Saiba Mais</Button>
+                  </a>
+                )}
+              </div>
+            </FeedContainer>
+          ) : (
+            <FeedContainer>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "0.3rem",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.3rem",
+                  }}
+                >
+                  <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
+                  <h6>{post.name}</h6>
+                </div>
+                <Like>
+                  <FavoriteBorderIcon />
+                </Like>
+              </div>
+
+              <OnlyDescription>{post.description}</OnlyDescription>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "flex-end",
+                  padding: "0 1rem 1rem 1rem",
+                }}
+              >
+                {post.user_is_ong && (
+                  <a
+                    href={`https://wa.me/${
+                      post.phone
+                    }?text=Olá, vim do *Patinhas Felizes*\n Contexto: \n ${
+                      post.description ? post.description : "Postagem"
+                    }`}
+                  >
+                    <Button variant="contained">Saiba Mais</Button>
+                  </a>
+                )}
+              </div>
+            </FeedContainer>
+          )}
+        </>
+      ))}
     </div>
   );
 };

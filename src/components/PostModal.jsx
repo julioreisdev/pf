@@ -1,8 +1,10 @@
 import { Button, Dialog, DialogContent } from "@mui/material";
 import { TextArea } from "../style";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import { colors } from "../utils";
+import axios from "axios";
+import { GlobalContext } from "./Context";
 
 const PostModal = ({ open, onClose, update }) => {
   const [description, setDescription] = useState("");
@@ -17,8 +19,34 @@ const PostModal = ({ open, onClose, update }) => {
     }
   };
 
+  const context = useContext(GlobalContext);
+
   function isVideo(file) {
     return file && file.type.startsWith("video/");
+  }
+
+  function post() {
+    setLoading(true);
+    const payload = new FormData();
+
+    if (imageFile) {
+      payload.append("midia", imageFile);
+    }
+    payload.append("user_id", localStorage.getItem("user_id"));
+    payload.append("user_is_ong", localStorage.getItem("is_ong"));
+    payload.append("description", description);
+    axios
+      .post("http://localhost:8008/posts", payload)
+      .then((res) => {
+        context.updatePostsFunction();
+        setDescription("");
+        setImageFile(null);
+        onClose();
+      })
+      .catch(() => {})
+      .finally(() => {
+        setLoading(false);
+      });
   }
 
   return (
@@ -98,6 +126,7 @@ const PostModal = ({ open, onClose, update }) => {
             size="small"
             loading={loading}
             type="submit"
+            onClick={post}
           >
             Postar
           </LoadingButton>

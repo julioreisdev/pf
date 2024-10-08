@@ -30,6 +30,18 @@ export function imgBuffer(image) {
   }
 }
 
+export function videoBuffer(video) {
+  if (video && video.type === "Buffer" && Array.isArray(video.data)) {
+    const blob = new Blob([new Uint8Array(video.data)], {
+      type: "video/mp4",
+    });
+    const videoUrl = URL.createObjectURL(blob);
+    return videoUrl;
+  } else {
+    return "";
+  }
+}
+
 export function isVideoBuffer(buffer) {
   // Converte o buffer para um array de bytes
   const bytes = new Uint8Array(buffer);

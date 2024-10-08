@@ -5,10 +5,11 @@ import Dashboard from "./components/Dashboard";
 import Feed from "./components/Feed";
 import Search from "./components/Search";
 import PersonalProfile from "./components/PersonalProfile";
+import { GlobalContextProvider } from "./components/Context";
 
 function App() {
   return (
-    <div>
+    <GlobalContextProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Login></Login>} />
@@ -28,7 +29,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
-    </div>
+    </GlobalContextProvider>
   );
 }
 
