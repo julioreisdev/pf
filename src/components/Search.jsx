@@ -3,19 +3,27 @@ import styled from "styled-components";
 import { Input } from "../style";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { imgBuffer } from "../utils";
+import { colors, imgBuffer } from "../utils";
+import { TailSpin } from "react-loader-spinner";
 
 const Search = () => {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://localhost:8008/users`).then((res) => {
-      setUsers(res.data);
-      console.log(res.data);
-    });
+    setLoading(true);
+    axios
+      .get(`https://pf-back-gpex.onrender.com/users`)
+      .then((res) => {
+        setUsers(res.data);
+        console.log(res.data);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const filteredUsers = users.filter(
@@ -45,33 +53,43 @@ const Search = () => {
           overflowY: "scroll",
         }}
       >
-        {filteredUsers.map((user) => (
+        {loading ? (
           <div
-            key={user.id}
-            onClick={() => navigate(`/dashboard/profile/${user.id}`)}
-            style={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              cursor: "pointer",
-              padding: "0.3rem",
-              backgroundColor: "#121212",
-            }}
+            style={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-            <UserImage
-              src={
-                imgBuffer(user.image) ||
-                "https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/128/Profile-icon.png"
-              }
-              alt=""
-            />
-            <div>
-              <UserName>{user.name}</UserName>
-              <UserEmail>{user.email}</UserEmail>
-            </div>
+            <TailSpin width={60} height={60} color={colors.main} />
           </div>
-        ))}
+        ) : (
+          <>
+            {filteredUsers.map((user) => (
+              <div
+                key={user.id}
+                onClick={() => navigate(`/dashboard/profile/${user.id}`)}
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  cursor: "pointer",
+                  padding: "0.3rem",
+                  backgroundColor: "#121212",
+                }}
+              >
+                <UserImage
+                  src={
+                    imgBuffer(user.image) ||
+                    "https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/128/Profile-icon.png"
+                  }
+                  alt=""
+                />
+                <div>
+                  <UserName>{user.name}</UserName>
+                  <UserEmail>{user.email}</UserEmail>
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );

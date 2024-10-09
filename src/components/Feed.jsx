@@ -16,7 +16,7 @@ const Feed = () => {
   useEffect(() => {
     setPostsLoading(true);
     axios
-      .get("http://localhost:8008/posts")
+      .get("https://pf-back-gpex.onrender.com/posts")
       .then((res) => {
         setPosts(res.data);
       })
@@ -48,6 +48,8 @@ const Feed = () => {
                   alignItems: "center",
                   justifyContent: "space-between",
                   padding: "0.3rem",
+                  background:
+                    "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))",
                 }}
               >
                 <div
@@ -60,9 +62,6 @@ const Feed = () => {
                   <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
                   <h6>{post.name}</h6>
                 </div>
-                <Like>
-                  <FavoriteIcon />
-                </Like>
               </div>
               {post.mime.includes("video") ? (
                 <video style={{ width: "100%" }} controls>
@@ -83,7 +82,7 @@ const Feed = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "flex-end",
-                  padding: "0 1rem 1rem 1rem",
+                  padding: "1rem 1rem 1rem 1rem",
                 }}
               >
                 {post.user_is_ong && (
@@ -122,9 +121,6 @@ const Feed = () => {
                   <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
                   <h6>{post.name}</h6>
                 </div>
-                <Like>
-                  <FavoriteBorderIcon />
-                </Like>
               </div>
 
               <OnlyDescription>{post.description}</OnlyDescription>
@@ -133,7 +129,7 @@ const Feed = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "flex-end",
-                  padding: "0 1rem 1rem 1rem",
+                  padding: "1rem 1rem 1rem 1rem",
                 }}
               >
                 {post.user_is_ong && (
@@ -175,8 +171,6 @@ export const FeedContainer = styled.div`
   position: relative;
   margin-bottom: 0.5rem;
 `;
-
-export const Like = styled.div``;
 
 export const Description = styled.div`
   padding: 2rem 0.3rem 1rem 0.3rem;

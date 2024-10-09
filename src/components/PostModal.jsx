@@ -36,11 +36,12 @@ const PostModal = ({ open, onClose, update }) => {
     payload.append("user_is_ong", localStorage.getItem("is_ong"));
     payload.append("description", description);
     axios
-      .post("http://localhost:8008/posts", payload)
+      .post("https://pf-back-gpex.onrender.com/posts", payload)
       .then((res) => {
         context.updatePostsFunction();
         setDescription("");
         setImageFile(null);
+        setSelectedImage(null);
         onClose();
       })
       .catch(() => {})

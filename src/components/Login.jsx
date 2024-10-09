@@ -25,7 +25,7 @@ function Login() {
       password,
     };
     axios
-      .post("http://localhost:8008/login", payload)
+      .post("https://pf-back-gpex.onrender.com/login", payload)
       .then((res) => {
         localStorage.setItem("authenticated", "true");
         localStorage.setItem("name", res.data.name);

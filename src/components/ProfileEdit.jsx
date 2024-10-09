@@ -19,14 +19,14 @@ const ProfileEdit = ({ open, onClose, update, user, userImg }) => {
   }, [user]);
 
   function edit() {
-    setLoading(true);
     const data = new FormData();
 
     data.append("name", name);
     data.append("image", imageFile);
     phone && data.append("phone", phone);
+    setLoading(true);
     axios
-      .put(`http://localhost:8008/user/${user.id}`, data)
+      .put(`https://pf-back-gpex.onrender.com/user/${user.id}`, data)
       .then((res) => {
         update();
         onClose();
