@@ -72,16 +72,36 @@ const PostModal = ({ open, onClose, update }) => {
                   Seu navegador não suporta o elemento de vídeo.
                 </video>
               ) : (
-                <img
-                  style={{
-                    width: "200px",
-                    cursor: "pointer",
-                    height: "200px",
-                    objectFit: "cover",
-                  }}
-                  src={selectedImage || "/public/fundo.png"}
-                  alt="Profile"
-                />
+                <>
+                  {selectedImage ? (
+                    <img
+                      style={{
+                        width: "200px",
+                        cursor: "pointer",
+                        height: "200px",
+                        objectFit: "cover",
+                      }}
+                      src={selectedImage || "/public/fundo.png"}
+                      alt="Profile"
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        width: "200px",
+                        cursor: "pointer",
+                        height: "200px",
+                        border: "1px dashed #fff",
+                        borderRadius: "5px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        color: "#fff",
+                      }}
+                    >
+                      <p>Clique para selecionar</p>
+                    </div>
+                  )}
+                </>
               )}
             </div>
           </label>

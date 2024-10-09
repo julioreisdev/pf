@@ -59,7 +59,13 @@ const Feed = () => {
                     gap: "0.3rem",
                   }}
                 >
-                  <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
+                  <UserImg
+                    src={
+                      post.image
+                        ? imgBuffer(post.image)
+                        : "https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png"
+                    }
+                  />
                   <h6>{post.name}</h6>
                 </div>
               </div>
@@ -118,7 +124,13 @@ const Feed = () => {
                     gap: "0.3rem",
                   }}
                 >
-                  <UserImg src="https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png" />
+                  <UserImg
+                    src={
+                      post.image
+                        ? imgBuffer(post.image)
+                        : "https://icons.iconarchive.com/icons/elegantthemes/beautiful-flat/256/Profile-icon.png"
+                    }
+                  />
                   <h6>{post.name}</h6>
                 </div>
               </div>
