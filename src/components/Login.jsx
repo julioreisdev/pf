@@ -62,7 +62,7 @@ function Login() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Usuário"
           required
-          type="email"
+          type="text"
         />
         <Input
           value={password}

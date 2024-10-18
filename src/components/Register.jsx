@@ -84,9 +84,9 @@ function Register() {
         <Input
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="E-mail"
+          placeholder="Nome de usuário"
           required
-          type="email"
+          type="text"
         />
         <Input
           value={password}

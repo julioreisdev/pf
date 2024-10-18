@@ -27,10 +27,20 @@ const Dashboard = ({ children }) => {
       </Header>
       <Content>{children}</Content>
       <Footer style={{ color: colors.main }}>
-        <DynamicFeedIcon onClick={() => navigate("feed")} />
-        <SearchIcon onClick={() => navigate("search")} />
-        <LoupeIcon onClick={() => setPostIsOpen(true)} />
+        <DynamicFeedIcon
+          sx={{ fontSize: "2rem" }}
+          onClick={() => navigate("feed")}
+        />
+        <SearchIcon
+          sx={{ fontSize: "2rem" }}
+          onClick={() => navigate("search")}
+        />
+        <LoupeIcon
+          sx={{ fontSize: "2rem" }}
+          onClick={() => setPostIsOpen(true)}
+        />
         <AccountCircleIcon
+          sx={{ fontSize: "2rem" }}
           onClick={() => navigate(`profile/${localStorage.getItem("user_id")}`)}
         />
       </Footer>

@@ -129,7 +129,7 @@ const PostModal = ({ open, onClose, update }) => {
           <TextArea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Nome"
+            placeholder="O que você está pensando?"
             type="text"
           />
 

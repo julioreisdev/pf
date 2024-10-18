@@ -135,7 +135,9 @@ const Feed = () => {
                 </div>
               </div>
 
-              <OnlyDescription>{post.description}</OnlyDescription>
+              <OnlyDescription style={{ paddingTop: "2.5rem" }}>
+                {post.description}
+              </OnlyDescription>
               <div
                 style={{
                   display: "flex",
@@ -165,10 +167,10 @@ const Feed = () => {
 };
 
 export const UserImg = styled.img`
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  object-fit: contain;
+  object-fit: cover;
 `;
 
 export const MediaImg = styled.img`
