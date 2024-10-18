@@ -49,7 +49,7 @@ const Feed = () => {
                   justifyContent: "space-between",
                   padding: "0.3rem",
                   background:
-                    "linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))",
+                    "linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0))",
                 }}
               >
                 <div
@@ -70,7 +70,7 @@ const Feed = () => {
                 </div>
               </div>
               {post.mime.includes("video") ? (
-                <video style={{ width: "100%" }} controls>
+                <video style={{ width: "100%" }} controls autoPlay loop>
                   <source src={videoBuffer(post.midia)} type="video/mp4" />
                   Seu navegador não suporta o elemento de vídeo.
                 </video>

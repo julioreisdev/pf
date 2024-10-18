@@ -41,7 +41,7 @@ const MediaPreview = ({ open, onClose, post }) => {
                   </div>
                 </div>
                 {post.mime.includes("video") ? (
-                  <video style={{ width: "100%" }} controls>
+                  <video style={{ width: "100%" }} controls autoPlay loop>
                     <source src={videoBuffer(post.midia)} type="video/mp4" />
                     Seu navegador não suporta o elemento de vídeo.
                   </video>

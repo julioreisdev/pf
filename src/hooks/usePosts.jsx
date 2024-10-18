@@ -3,7 +3,7 @@ import { fetcher } from "../utils/api";
 
 export function usePosts() {
   const { data, error, mutate } = useSWR(
-    "http://localhost:8008/posts",
+    "https://pf-back-gpex.onrender.com/posts",
     fetcher
   );
 

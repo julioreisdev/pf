@@ -67,7 +67,7 @@ const PostModal = ({ open, onClose, update }) => {
           <label htmlFor="image-input">
             <div style={{ overflowY: "auto", maxHeight: "400px" }}>
               {isVideo(imageFile) ? (
-                <video style={{ width: "200px" }} controls>
+                <video style={{ width: "200px" }} controls autoPlay loop>
                   <source src={selectedImage} type="video/mp4" />
                   Seu navegador não suporta o elemento de vídeo.
                 </video>
